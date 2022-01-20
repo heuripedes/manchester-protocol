@@ -1,19 +1,72 @@
+# Manchester Protocol Simulator
+
+This project simulates the use of the manchester protocol in an Emergency Room.
+
+The manchester protocol which is a protocol for patient risk classification
+invented in 1994 by Kevin Mackway-Jones. It was created to help clinics and
+hospitals to deal with incoming patients in a efficient way while minimizing
+risk for each patient.
+
+The intent here is to simulate waves of patients arriving at the hospital with
+variying levels of risk. Upon arrival, each patient receives a tag or purse with
+a color that represent the risk:
+
+* `red` - This patient must be taken care of RIGHT NOW or they might die.
+* `orange` - This patient can wait about 10 minutes.
+* `yellow` - This patient can wait up to 60 minutes.
+* `green` - This patient should wait up to 120 minutes or sent elsewhere.
+* `blue` - This patient should wait up to 240 minutes or sent elsewhere.
+
+As time passes, the health state of `yellow` and `orange` patients will become
+worse and they will gravitate towards `red` state. `red` tag patients might die
+and occupy space at the ERR for a few ticks, decreasing the patient throughput
+of the system.
+
+The simulator runs at approximately two ticks per second and each tick
+represents one minute.
+
+## Requirements
+
+We require ncurses development files, install it with:
+
+    sudo apt install libncurses-dev
+
+## Building
+
+    mkdir build
+    cd build
+    cmake ..
+    make
+
+## Running
+
+    cd build
+    ./manchester_protocol
+
+Shortcuts:
+
+* `q` - quit
+* `space` - add more patients
+* `↑` - increase the number of doctos/rooms
+* `↓` - decrease the number of doctors/rooms
+* `←` - decrease simulation speed
+* `→` - increase simulation speed
 
 ## CAPSTONE Project Rubric
 
 ### README (All Rubric Points REQUIRED)
 
-* [ ] The README is included with the project and has instructions for building/running the project.
-* [ ] If any additional libraries are needed to run the project, these are indicated with cross-platform installation instructions.
-* [ ] You can submit your writeup as markdown or pdf.
-* [ ] The README describes the project you have built
+* [x] The README is included with the project and has instructions for building/running the project.
+* [x] If any additional libraries are needed to run the project, these are indicated with cross-platform installation instructions.
+* [x] You can submit your writeup as markdown or pdf.
+* [x] The README describes the project you have built
 * [ ] The README also indicates the file and class structure, along with the expected behavior or output of the program.
 * [ ] The README indicates which rubric points are addressed. The README also indicates where in the code (i.e. files and line numbers) that the rubric points are addressed.
 
 ### Compiling and Testing (All Rubric Points REQUIRED)
 
 * [ ] The project code must compile and run without errors.
-* [ ] We strongly recommend using cmake and make, as provided in the starter repos. If you choose another build system, the code must compile on any reviewer platform.
+* [x] We strongly recommend using cmake and make, as provided in the starter repos. If you choose another build system, the code must compile on any reviewer platform.
 
 ### Loops, Functions, I/O
 
