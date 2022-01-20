@@ -1,15 +1,23 @@
+#include "Simulator.h"
 #include "Tui.h"
+#include <signal.h>
 
 #include <chrono>
 #include <thread>
 using namespace std::chrono_literals;
 
+static volatile int gotSignalToQuit = 0;
+
+void signalToQuitHandler(int dummy) { gotSignalToQuit = 1; }
+
 int main() {
-  Tui tui;
-  unsigned ticks = 0;
   auto tick_delay = 500ms;
 
-  while (tui.isOpen()) {
+  signal(SIGINT, signalToQuitHandler);
+
+  Tui tui;
+  Simulator sim(0);
+  while (tui.isOpen() && !gotSignalToQuit) {
     switch (tui.readCommand()) {
     case TuiCmd::quit:
       tui.setOpen(false);
@@ -29,9 +37,8 @@ int main() {
     else if (tick_delay > 1000ms)
       tick_delay = 1000ms;
 
-    ticks++;
-
-    tui.render(ticks);
+    sim.advance();
+    tui.render(sim);
 
     std::this_thread::sleep_for(tick_delay);
   }

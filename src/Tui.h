@@ -12,6 +12,8 @@ enum class TuiCmd {
   decSpeed,
 };
 
+enum class Color { black = 0, white, blue, green, yellow, orange, red, dim };
+
 class TuiImpl {
 public:
   TuiImpl() = default;
@@ -25,8 +27,16 @@ public:
   virtual void clear() = 0;
   virtual void flip() = 0;
   virtual void print(const std::string &str) = 0;
+
+  virtual std::tuple<int, int> geometry() = 0;
+
+  // negative values means "don't touch this coord"
+  virtual void goTo(int x, int y) = 0;
+  virtual void color(Color color) = 0;
+  virtual void resetColor() { color(Color::black); }
 };
 
+class Simulator;
 class Tui {
 public:
   Tui();
@@ -39,7 +49,7 @@ public:
   void setOpen(bool open) { _open = open; }
 
   TuiCmd readCommand();
-  void render(unsigned tick);
+  void render(Simulator &sim);
 
   ~Tui();
 

@@ -16,7 +16,10 @@ project(manchester-protocol VERSION 1.0
 
 
 set(CURSES_NEED_NCURSES TRUE)
-include(FindCurses)
+find_package(Curses REQUIRED)
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
 
 # set(ABSL_PROPAGATE_CXX_STD ON)
 # add_subdirectory(third_party/abseil-cpp)
@@ -26,11 +29,16 @@ add_executable(manchester_protocol
     src/main.cpp
     src/Tui.cpp
     src/Tui.h
+    src/Simulator.h
+    src/Simulator.cpp
+    src/Patient.h
+    src/Patient.cpp
+    src/ThreadUtil.h
 )
 
 target_compile_features(manchester_protocol PUBLIC cxx_std_17)
 target_compile_options(manchester_protocol PRIVATE -Wall)
-target_link_libraries(manchester_protocol PRIVATE ${CURSES_LIBRARIES} fmt::fmt)
+target_link_libraries(manchester_protocol PRIVATE ${CURSES_LIBRARIES} fmt::fmt Threads::Threads)
 target_compile_definitions(manchester_protocol PRIVATE ${CURSES_CFLAGS})
 target_include_directories(manchester_protocol PRIVATE ${CURSES_INCLUDE_DIRS})
 set_target_properties(manchester_protocol PROPERTIES CXX_EXTENSIONS OFF)
