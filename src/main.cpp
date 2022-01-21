@@ -14,14 +14,14 @@ int main() {
   auto tick_delay = 500ms;
 
   Simulator sim(0);
-  Tui tui;
+  auto tui = Tui::createInstance();
 
   signal(SIGINT, signalToQuitHandler);
 
-  while (tui.isOpen() && !gotSignalToQuit) {
-    switch (tui.readCommand()) {
+  while (tui->isOpen() && !gotSignalToQuit) {
+    switch (tui->readCommand()) {
     case TuiCmd::quit:
-      tui.setOpen(false);
+      tui->setOpen(false);
       break;
     case TuiCmd::incSpeed:
       tick_delay -= 50ms;
@@ -52,7 +52,7 @@ int main() {
       tick_delay = 1000ms;
 
     sim.advance();
-    tui.render(sim);
+    tui->render(sim);
 
     std::this_thread::sleep_for(tick_delay);
   }
