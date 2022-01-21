@@ -7,7 +7,7 @@ class NcursesTuiImpl : public TuiImpl {
 public:
   NcursesTuiImpl() {
     initscr();
-    raw();
+    cbreak();
     noecho();
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
@@ -126,37 +126,36 @@ void Tui::render(Simulator &sim) {
 
   impl->print(fmt::format("Tick {}\n", sim.ticks()));
 
-  impl->goTo(width / 2, -1);
+  impl->goTo(0, 2);
   impl->color(Color::white);
-  impl->print(fmt::format("Waiting: {}\n", sim.waitingPatients().size()));
+  impl->print(
+      fmt::format(" With a doctor: {} \n", sim.patientsWithDoctors().size()));
+  impl->goTo(0, 3);
+  impl->print(fmt::format(" #ID     Time\n"));
+
+  auto &withDoctor = sim.patientsWithDoctors();
+  for (int i = 0; i < 10 && (unsigned)i < withDoctor.size(); ++i) {
+    impl->goTo(0, -1);
+    _drawPatient(withDoctor[i].second);
+  }
+
+  impl->goTo(width / 2, 2);
+  impl->color(Color::white);
+  impl->print(fmt::format(" Waiting: {} \n", sim.waitingPatients().size()));
+  impl->goTo(width / 2, 3);
+  impl->print(fmt::format(" #ID     Time\n"));
 
   auto &waiting = sim.waitingPatients();
-  for (int i = 0; i < 10 && i < waiting.size(); ++i) {
+  for (int i = 0; i < 10 && (unsigned)i < waiting.size(); ++i) {
     impl->goTo(width / 2, -1);
-
-    std::string tag_string;
-
-    switch (waiting[i].tag()) {
-    case PatientTag::blue:
-      tag_string = "blue  ";
-      break;
-    case PatientTag::green:
-      tag_string = "green ";
-      break;
-    case PatientTag::yellow:
-      tag_string = "yellow";
-      break;
-    case PatientTag::orange:
-      tag_string = "orange";
-      break;
-    case PatientTag::red:
-      tag_string = "red   ";
-      break;
-    }
-
-    impl->color(Color(int(waiting[i].tag()) + 2));
-    impl->print(fmt::format("    {} {} {}\n", tag_string,
-                            waiting[i].remainingTime(), int(waiting[i].tag())));
+    _drawPatient(waiting[i]);
   }
   impl->flip();
+}
+
+void Tui::_drawPatient(const Patient &p) {
+  std::string tag_string;
+
+  impl->color(Color(int(p.tag()) + 2));
+  impl->print(fmt::format(" #{:05} {:5}\n", p.id(), p.remainingTime()));
 }

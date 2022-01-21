@@ -41,7 +41,7 @@ int Patient::remainingTime() const {
   case PatientTag::orange:
     return 10 - elapsed;
   case PatientTag::red:
-    return 0 - elapsed;
+    return 1 - elapsed;
   default:
     throw std::runtime_error("this shouldn't have happened");
   }

@@ -18,12 +18,10 @@ a color that represent the risk:
 * `blue` - This patient should wait up to 240 minutes or sent elsewhere.
 
 As time passes, the health state of `yellow` and `orange` patients will become
-worse and they will gravitate towards `red` state. `red` tag patients might die
-and occupy space at the ERR for a few ticks, decreasing the patient throughput
-of the system.
+worse and they will gravitate towards `red` state.
 
-The simulator runs at approximately two ticks per second and each tick
-represents one minute.
+By default, the simulator runs at approximately two ticks per second and each
+tick represents one minute.
 
 ## Requirements
 
@@ -91,12 +89,13 @@ Shortcuts:
 * [ ] One function is overloaded with different signatures for the same function name.
 * [x] One member function in an inherited class overrides a virtual base class member function.
     > Class NcursesTuiImpl in file Tui.cpp overrides functions declared in abstract class TuiImpl from Tui.h
-* [ ] One function is declared with a template that allows it to accept a generic parameter.
+* [x] One function is declared with a template that allows it to accept a generic parameter.
+    > Class Channel in ThreadUtil.h requires a template argument. Methods send() and receive() are written in a generic form.
 
 ### Memory Management
 
 * [x] At least two variables are defined as references, or two functions use pass-by-reference in the project code.
-    > Function "swap" in Patient.h receives arguments as references
+    > Function "swap" in Patient.h receives arguments as references and so does Tui::_drawPatient() in Tui.h
 * [x] At least one class that uses unmanaged dynamically allocated memory, along with any class that otherwise needs to modify state upon the termination of an object, uses a destructor.
     > Class NcursesTuiImpl in Tui.cpp uses a destructor to terminate the ncurses session
 * [x] The project follows the Resource Acquisition Is Initialization pattern where appropriate, by allocating objects at compile-time, initializing objects when they are declared, and utilizing scope to ensure their automatic destruction.

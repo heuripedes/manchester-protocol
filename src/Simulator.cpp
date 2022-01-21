@@ -19,6 +19,22 @@ void Simulator::advance() {
   _ticks++;
   if (_ticks % 2 == 0)
     generatePatientWave();
+
+  // clear patients
+  auto to_clear = std::remove_if(
+      _patientsWithDoctor.begin(), _patientsWithDoctor.end(),
+      [&](const std::pair<int, Patient> &p) { return p.first < _ticks; });
+  _patientsWithDoctor.erase(to_clear, _patientsWithDoctor.end());
+
+  while (_patientsWithDoctor.size() < (unsigned)_numDoctors &&
+         !_waitingPatients.empty()) {
+    auto it = _waitingPatients.begin();
+    auto p = std::move(*it);
+
+    _patientsWithDoctor.emplace_back(_ticks + (_rng() % (int(p.tag()) + 2)),
+                                     std::move(p));
+    _waitingPatients.erase(it);
+  }
 }
 
 void Simulator::generatePatientWave() {
@@ -41,7 +57,6 @@ void Simulator::generatePatientWave() {
 }
 
 int Simulator::_patientGenerator() {
-  std::uniform_int_distribution<int> amount_dist(0, 8);
   std::uniform_int_distribution<int> tag_dist(int(PatientTag::blue),
                                               int(PatientTag::red));
 
@@ -50,8 +65,10 @@ int Simulator::_patientGenerator() {
   while (!_quitEvent.isSet()) {
     std::vector<Patient> wave;
 
-    // lock needed because we change _rng
+    // lock needed because we change _rng and read numDoctors
     std::unique_lock lock(_mutex);
+
+    std::uniform_int_distribution<int> amount_dist(0, _numDoctors * 1.5);
 
     int amount = amount_dist(_rng);
     for (int i = 0; i < amount; ++i) {

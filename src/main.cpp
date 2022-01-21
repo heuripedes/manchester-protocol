@@ -13,10 +13,11 @@ void signalToQuitHandler(int dummy) { gotSignalToQuit = 1; }
 int main() {
   auto tick_delay = 500ms;
 
+  Simulator sim(0);
+  Tui tui;
+
   signal(SIGINT, signalToQuitHandler);
 
-  Tui tui;
-  Simulator sim(0);
   while (tui.isOpen() && !gotSignalToQuit) {
     switch (tui.readCommand()) {
     case TuiCmd::quit:
@@ -27,6 +28,19 @@ int main() {
       break;
     case TuiCmd::decSpeed:
       tick_delay += 50ms;
+      break;
+    case TuiCmd::incDoctors:
+      if (sim.numDoctors() < 20)
+        sim.setNumDoctors(sim.numDoctors() + 1);
+      break;
+    case TuiCmd::decDoctors:
+      if (sim.numDoctors() > 0)
+        sim.setNumDoctors(sim.numDoctors() - 1);
+      break;
+    case TuiCmd::addPatients:
+      sim.generatePatientWave();
+      sim.generatePatientWave();
+      sim.generatePatientWave();
       break;
     default:
       break;

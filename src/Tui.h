@@ -37,6 +37,8 @@ public:
 };
 
 class Simulator;
+class Patient;
+
 class Tui {
 public:
   Tui();
@@ -56,4 +58,6 @@ public:
 private:
   std::unique_ptr<TuiImpl> impl;
   bool _open;
+
+  void _drawPatient(const Patient &p);
 };
