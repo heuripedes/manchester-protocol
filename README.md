@@ -90,7 +90,7 @@ Shortcuts:
 * [x] One member function in an inherited class overrides a virtual base class member function.
     > Class NcursesTuiImpl in file Tui.cpp overrides functions declared in abstract class TuiImpl from Tui.h
 * [x] One function is declared with a template that allows it to accept a generic parameter.
-    > Class Channel in ThreadUtil.h requires a template argument. Methods send() and receive() are written in a generic form.
+    > Class Channel in Util.h requires a template argument. Methods send() and receive() are written in a generic form.
 
 ### Memory Management
 
@@ -109,6 +109,6 @@ Shortcuts:
 * [x] The project uses multiple threads in the execution.
 * [x] A promise and future is used to pass data from a worker thread to a parent thread in the project code.
 * [x] A mutex or lock (e.g. std::lock_guard or `std::unique_lock) is used to protect data that is shared across multiple threads in the project code.
-    > Classes Event and Channel in ThreadUtil.h
+    > Classes Event and Channel in Util.h
 * [x] A std::condition_variable is used in the project code to synchronize thread execution.
-    > Classes Event and Channel in ThreadUtil.h
+    > Classes Event and Channel in Util.h

@@ -1,6 +1,6 @@
 #pragma once
 #include "Patient.h"
-#include "ThreadUtil.h"
+#include "Util.h"
 
 #include <future>
 #include <random>

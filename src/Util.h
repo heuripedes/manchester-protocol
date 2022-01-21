@@ -3,6 +3,7 @@
 #include <chrono>
 #include <condition_variable>
 #include <mutex>
+#include <random>
 #include <thread>
 #include <vector>
 
@@ -46,6 +47,7 @@ private:
   std::condition_variable _cv;
 };
 
+// Go-style channel for inter thread communication
 template <typename T> class Channel {
 public:
   Channel(int size) : _size(size) {}
@@ -99,3 +101,5 @@ private:
   std::condition_variable _empty_cond; // used to wait when the buffer is empty
   std::condition_variable _full_cond;  // used to wait when the buffer is full
 };
+
+std::string generateName(std::mt19937 &rng);

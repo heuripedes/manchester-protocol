@@ -3,21 +3,25 @@
 
 int Patient::_next_patient_id = 0;
 
-Patient::Patient(const Simulator *sim, PatientTag tag)
+Patient::Patient(const Simulator *sim, PatientTag tag, std::string name)
     : _id{++_next_patient_id}, _alive{true}, _arrivalTick{0},
-      _sim(sim), _tag{tag} {}
+      _sim(sim), _name{std::move(name)}, _tag{tag} {}
+
 Patient::Patient(Patient &&other)
-    : _id{other._id}, _alive{other._alive},
-      _arrivalTick{other._arrivalTick}, _sim{other._sim}, _tag{other._tag} {
+    : _id{std::move(other._id)}, _alive{std::move(other._alive)},
+      _arrivalTick{std::move(other._arrivalTick)}, _sim{std::move(other._sim)},
+      _name{std::move(other._name)}, _tag{std::move(other._tag)} {
   other._id = 0;
 }
 
 Patient &Patient::operator=(Patient &&other) {
-  _id = other._id;
-  _alive = other._alive;
-  _arrivalTick = other._arrivalTick;
-  _sim = other._sim;
-  _tag = other._tag;
+  _id = std::move(other._id);
+  _alive = std::move(other._alive);
+  _arrivalTick = std::move(other._arrivalTick);
+  _sim = std::move(other._sim);
+  _tag = std::move(other._tag);
+  _name = std::move(other._name);
+
   other._id = 0;
 
   return *this;

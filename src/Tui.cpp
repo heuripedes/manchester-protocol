@@ -157,5 +157,6 @@ void Tui::_drawPatient(const Patient &p) {
   std::string tag_string;
 
   impl->color(Color(int(p.tag()) + 2));
-  impl->print(fmt::format(" #{:05} {:5}\n", p.id(), p.remainingTime()));
+  impl->print(
+      fmt::format(" #{:05} {:5} {}\n", p.id(), p.remainingTime(), p.name()));
 }

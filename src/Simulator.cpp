@@ -72,7 +72,8 @@ int Simulator::_patientGenerator() {
 
     int amount = amount_dist(_rng);
     for (int i = 0; i < amount; ++i) {
-      wave.emplace_back(Patient(this, static_cast<PatientTag>(tag_dist(_rng))));
+      wave.emplace_back(Patient(this, static_cast<PatientTag>(tag_dist(_rng)),
+                                generateName(_rng)));
     }
 
     lock.unlock();

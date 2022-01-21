@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <utility>
 
 enum class PatientTag { blue = 0, green, yellow, orange, red };
@@ -6,7 +7,7 @@ enum class PatientTag { blue = 0, green, yellow, orange, red };
 class Simulator;
 class Patient {
 public:
-  Patient(const Simulator *sim, PatientTag tag);
+  Patient(const Simulator *sim, PatientTag tag, std::string name);
   Patient(const Patient &) = delete;
   Patient(Patient &&other);
 
@@ -24,13 +25,16 @@ public:
 
   int id() const { return _id; }
   PatientTag tag() const { return _tag; }
+  std::string name() const { return _name; }
 
 private:
   static int _next_patient_id;
+
   int _id;
   bool _alive;
   int _arrivalTick;
   const Simulator *_sim;
+  std::string _name;
   PatientTag _tag;
 };
 

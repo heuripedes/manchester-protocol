@@ -27,13 +27,14 @@ add_subdirectory(third_party/fmt-8.1.0 EXCLUDE_FROM_ALL)
 
 add_executable(manchester_protocol
     src/main.cpp
+    src/Patient.cpp
+    src/Patient.h
+    src/Simulator.cpp
+    src/Simulator.h
     src/Tui.cpp
     src/Tui.h
-    src/Simulator.h
-    src/Simulator.cpp
-    src/Patient.h
-    src/Patient.cpp
-    src/ThreadUtil.h
+    src/Util.cpp
+    src/Util.h
 )
 
 target_compile_features(manchester_protocol PUBLIC cxx_std_17)
