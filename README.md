@@ -7,21 +7,23 @@ invented in 1994 by Kevin Mackway-Jones. It was created to help clinics and
 hospitals to deal with incoming patients in a efficient way while minimizing
 risk for each patient.
 
+## Behavior
+
 The intent here is to simulate waves of patients arriving at the hospital with
 variying levels of risk. Upon arrival, each patient receives a tag or purse with
 a color that represent the risk:
 
 * `red` - This patient must be taken care of RIGHT NOW or they might die.
-* `orange` - This patient can wait about 10 minutes.
-* `yellow` - This patient can wait up to 60 minutes.
-* `green` - This patient should wait up to 120 minutes or sent elsewhere.
-* `blue` - This patient should wait up to 240 minutes or sent elsewhere.
+* `orange` - This patient can wait about 10 ticks.
+* `yellow` - This patient can wait up to 60 ticks.
+* `green` - This patient should wait up to 120 ticks or sent elsewhere.
+* `blue` - This patient should wait up to 240 ticks or sent elsewhere.
 
-As time passes, the health state of `yellow` and `orange` patients will become
-worse and they will gravitate towards `red` state.
+Patients might die waiting for treatment or during treatment and the obituary
+message will be written to log.txt. Not all patients will get to be treated
+though as *green* and *blue* patients might get tired of waiting and leave.
 
-By default, the simulator runs at approximately two ticks per second and each
-tick represents one minute.
+The time needed to treat a patient is random and decided when the treatment starts.
 
 ## Requirements
 
