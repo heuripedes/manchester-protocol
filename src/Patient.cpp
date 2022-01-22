@@ -3,22 +3,36 @@
 
 int Patient::_next_patient_id = 0;
 
+int getTagTicks(PatientTag tag) {
+  switch (tag) {
+  case PatientTag::blue:
+    return 240;
+  case PatientTag::green:
+    return 120;
+  case PatientTag::yellow:
+    return 60;
+  case PatientTag::orange:
+    return 10;
+  case PatientTag::red:
+    return 1;
+  default:
+    throw std::runtime_error("this shouldn't have happened");
+  }
+}
+
 Patient::Patient(const Simulator *sim, PatientTag tag, std::string name)
-    : _id{++_next_patient_id}, _alive{true}, _arrivalTick{0},
-      _sim(sim), _name{std::move(name)}, _tag{tag} {}
+    : _id{++_next_patient_id}, _ticks{getTagTicks(tag)}, _name{std::move(name)},
+      _tag{tag} {}
 
 Patient::Patient(Patient &&other)
-    : _id{std::move(other._id)}, _alive{std::move(other._alive)},
-      _arrivalTick{std::move(other._arrivalTick)}, _sim{std::move(other._sim)},
+    : _id{std::move(other._id)}, _ticks{std::move(other._ticks)},
       _name{std::move(other._name)}, _tag{std::move(other._tag)} {
   other._id = 0;
 }
 
 Patient &Patient::operator=(Patient &&other) {
   _id = std::move(other._id);
-  _alive = std::move(other._alive);
-  _arrivalTick = std::move(other._arrivalTick);
-  _sim = std::move(other._sim);
+  _ticks = std::move(other._ticks);
   _tag = std::move(other._tag);
   _name = std::move(other._name);
 
@@ -27,26 +41,4 @@ Patient &Patient::operator=(Patient &&other) {
   return *this;
 }
 
-Patient::~Patient() {
-  _id = 0;
-  _sim = nullptr;
-}
-
-int Patient::waitTime() const { return _sim->ticks() - _arrivalTick; }
-int Patient::remainingTime() const {
-  auto elapsed = waitTime();
-  switch (_tag) {
-  case PatientTag::blue:
-    return 240 - elapsed;
-  case PatientTag::green:
-    return 120 - elapsed;
-  case PatientTag::yellow:
-    return 60 - elapsed;
-  case PatientTag::orange:
-    return 10 - elapsed;
-  case PatientTag::red:
-    return 1 - elapsed;
-  default:
-    throw std::runtime_error("this shouldn't have happened");
-  }
-}
+Patient::~Patient() { _id = 0; }

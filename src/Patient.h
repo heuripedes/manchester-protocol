@@ -4,6 +4,8 @@
 
 enum class PatientTag { blue = 0, green, yellow, orange, red };
 
+int getTagTicks(PatientTag tag);
+
 class Simulator;
 class Patient {
 public:
@@ -16,12 +18,10 @@ public:
 
   ~Patient();
 
-  bool isAlive() const { return _alive; }
-
-  void setArrivalTick(int tick) { _arrivalTick = tick; }
-  int arrivalTick() const { return _arrivalTick; }
-  int waitTime() const;
-  int remainingTime() const;
+  void update() { _ticks--; }
+  int ticks() const { return _ticks; }
+  bool isUnconscious() const { return _ticks < 0; }
+  bool isDead() const { return _ticks < -5; }
 
   int id() const { return _id; }
   PatientTag tag() const { return _tag; }
@@ -31,9 +31,7 @@ private:
   static int _next_patient_id;
 
   int _id;
-  bool _alive;
-  int _arrivalTick;
-  const Simulator *_sim;
+  int _ticks;
   std::string _name;
   PatientTag _tag;
 };

@@ -64,32 +64,40 @@ void NcursesTui::render(Simulator &sim) {
   int width, height;
   getmaxyx(stdscr, height, width);
 
-  printw("Tick %d", sim.ticks());
+  printw("Tick %d\n", sim.ticks());
+  printw("Last event: %s", sim.lastEvent().c_str());
 
-  move(2, 0);
-  attron(COLOR_PAIR(int(Color::white)));
-  printw(" With a doctor: %d ", sim.patientsWithDoctors().size());
+  height -= 5; // 3 + 2 header lines
 
   move(3, 0);
-  printw(" #ID     Time \n");
+  attron(COLOR_PAIR(int(Color::white)));
+  printw(" Undergoing treatment: %d ", sim.patientsWithDoctors().size());
+
+  move(4, 0);
+  printw(" %-6s %-18s \n", "#ID", "Name");
   attroff(COLOR_PAIR(int(Color::white)));
 
   auto &withDoctor = sim.patientsWithDoctors();
-  for (int i = 0; i < 10 && (unsigned)i < withDoctor.size(); ++i) {
+  for (int i = 0; i < height && (unsigned)i < withDoctor.size(); ++i) {
     move(getcury(stdscr), 0);
     _drawPatient(withDoctor[i].second);
   }
 
-  move(2, width / 2);
+  for (int i = withDoctor.size(); i < sim.numDoctors(); ++i) {
+    move(getcury(stdscr), 0);
+    printw("-- idle --");
+  }
+
+  move(3, 28);
   attron(COLOR_PAIR(int(Color::white)));
   printw(" Waiting: %d \n", sim.waitingPatients().size());
-  move(3, width / 2);
-  printw(" #ID     Time\n");
+  move(4, 28);
+  printw(" %-6s %-18s \n", "#ID", "Name");
   attroff(COLOR_PAIR(int(Color::white)));
 
   auto &waiting = sim.waitingPatients();
-  for (int i = 0; i < 10 && (unsigned)i < waiting.size(); ++i) {
-    move(getcury(stdscr), width / 2);
+  for (int i = 0; i < height && (unsigned)i < waiting.size(); ++i) {
+    move(getcury(stdscr), 28);
     _drawPatient(waiting[i]);
   }
 
@@ -100,7 +108,8 @@ void NcursesTui::_drawPatient(const Patient &p) {
   std::string tag_string;
 
   attron(COLOR_PAIR(int(Color(int(p.tag()) + 2))));
-  printw(" #%05d %05d %s\n", p.id(), p.remainingTime(), p.name().c_str());
+  // printw(" #%05d %05d %s\n", p.id(), p.ticks(), p.name().c_str());
+  printw(" #%05d %-18s \n", p.id(), p.name().c_str());
   attroff(COLOR_PAIR(int(Color(int(p.tag()) + 2))));
 }
 

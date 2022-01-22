@@ -71,7 +71,8 @@ Shortcuts:
 * [x] A variety of control structures are used in the project.
     > while loop, switch statement and if-else used in main.cpp
 * [x] The project code is clearly organized into functions.
-* [ ] The project reads data from an external file or writes data to a file as part of the necessary operation of the program.
+* [x] The project reads data from an external file or writes data to a file as part of the necessary operation of the program.
+    > The Simulator class in Simulator.cpp writes a log file with the death messages.
 * [x] The project accepts input from a user as part of the necessary operation of the program.
     > Program uses ncurses for input
 
