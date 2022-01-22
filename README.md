@@ -120,7 +120,7 @@ Shortcuts:
     > all classes
 * [x] All class members that are set to argument values are initialized through
   member initialization lists.
-    > Class Tui's constructors in Tui.cpp
+    > Class Patient's constructors in Patient.cpp
 * [x] All class member functions document their effects, either through function
   names, comments, or formal documentation. Member functions do not change
   program state in undocumented ways.
