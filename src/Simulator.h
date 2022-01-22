@@ -44,6 +44,8 @@ private:
   std::mt19937 _rng;
   std::ofstream _log;
   std::string _lastEvent;
+
+  // pair is (ticks remaining, patient)
   std::vector<std::pair<int, Patient>> _patientsWithDoctor;
   std::vector<Patient> _waitingPatients;
   std::future<int> _patGen; // _patientGenerator promise

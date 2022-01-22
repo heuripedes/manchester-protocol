@@ -39,8 +39,6 @@ int main() {
       break;
     case TuiCmd::addPatients:
       sim.generatePatientWave();
-      sim.generatePatientWave();
-      sim.generatePatientWave();
       break;
     default:
       break;

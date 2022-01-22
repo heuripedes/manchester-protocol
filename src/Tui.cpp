@@ -56,6 +56,8 @@ TuiCmd NcursesTui::readCommand() {
     return TuiCmd::decDoctors;
   case 'q':
     return TuiCmd::quit;
+  case ' ':
+    return TuiCmd::addPatients;
   default:
     return TuiCmd::unknown;
   }

@@ -50,6 +50,28 @@ Shortcuts:
 * `←` - decrease simulation speed
 * `→` - increase simulation speed
 
+## The code
+
+* Simulator class (Simulator.h and Simulator.cpp): This class is the core of the
+  program. It takes care of running the actual behavior we desire. Upon
+  construction, an object of this class spanws a thread that is responsible for
+  generating the actual patient waves (a vector of Patient).
+* Patient class (Patient.h and Patient.cpp): This class is meant to store
+  Patient state. It doesn't do much other than decrement it's remaining ticks.
+* Tui class (Tui.h and Tui.cpp): This is an abstract class that provides the
+  interface needed to render the text-based user interface.
+  "Tui::createInstance()" is used to instantiate an object that follows this
+  interface (hard coded to NcursesTui).
+* NcursesTui class (Tui.cpp): This class implements an ncurses-based textual
+  user interface that follows the Tui interface. It is not possible to
+  instantiate it directly.
+* Event class (Util.h): This class is used to hold a flag that gets acessed by
+  multiple threads while keeping thread safety (through the use of mutexes and condition vairables).
+* Channel class (Util.h): This class implements a typed FIFO pipe or channel and
+  is used by the Simulator as a way for the patient wave generator thread to
+  send waves to the main thread.
+
+
 ## CAPSTONE Project Rubric
 
 ### README (All Rubric Points REQUIRED)
@@ -58,7 +80,7 @@ Shortcuts:
 * [x] If any additional libraries are needed to run the project, these are indicated with cross-platform installation instructions.
 * [x] You can submit your writeup as markdown or pdf.
 * [x] The README describes the project you have built
-* [ ] The README also indicates the file and class structure, along with the expected behavior or output of the program.
+* [x] The README also indicates the file and class structure, along with the expected behavior or output of the program.
 * [x] The README indicates which rubric points are addressed. The README also indicates where in the code (i.e. files and line numbers) that the rubric points are addressed.
 
 ### Compiling and Testing (All Rubric Points REQUIRED)
@@ -83,8 +105,8 @@ Shortcuts:
     > all classes
 * [x] All class members that are set to argument values are initialized through member initialization lists.
     > Class Tui's constructors in Tui.cpp
-* [ ] All class member functions document their effects, either through function names, comments, or formal documentation. Member functions do not change program state in undocumented ways.
-* [ ] Appropriate data and functions are grouped into classes. Member data that is subject to an invariant is hidden from the user. State is accessed via member functions.
+* [x] All class member functions document their effects, either through function names, comments, or formal documentation. Member functions do not change program state in undocumented ways.
+* [x] Appropriate data and functions are grouped into classes. Member data that is subject to an invariant is hidden from the user. State is accessed via member functions.
 * [x] Inheritance hierarchies are logical. Composition is used instead of inheritance when appropriate. Abstract classes are composed of pure virtual functions. Override functions are specified. 
     > Classes Tui, TuiImpl and NcursesTui in Tui.cpp and Tui.h
 * [ ] One function is overloaded with different signatures for the same function name.
