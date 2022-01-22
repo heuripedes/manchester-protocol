@@ -18,6 +18,9 @@ public:
 
 private:
   void _drawPatient(const Patient &p);
+
+  void colorOn(Color color) { attron(COLOR_PAIR(int(color))); }
+  void colorOff(Color color) { attroff(COLOR_PAIR(int(color))); }
 };
 
 NcursesTui::NcursesTui() {
@@ -70,12 +73,12 @@ void NcursesTui::render(Simulator &sim) {
   height -= 5; // 3 + 2 header lines
 
   move(3, 0);
-  attron(COLOR_PAIR(int(Color::white)));
+  colorOn(Color::white);
   printw(" Undergoing treatment: %d ", sim.patientsWithDoctors().size());
 
   move(4, 0);
   printw(" %-6s %-18s \n", "#ID", "Name");
-  attroff(COLOR_PAIR(int(Color::white)));
+  colorOff(Color::white);
 
   auto &withDoctor = sim.patientsWithDoctors();
   for (int i = 0; i < height && (unsigned)i < withDoctor.size(); ++i) {
@@ -89,11 +92,11 @@ void NcursesTui::render(Simulator &sim) {
   }
 
   move(3, 28);
-  attron(COLOR_PAIR(int(Color::white)));
+  colorOn(Color::white);
   printw(" Waiting: %d \n", sim.waitingPatients().size());
   move(4, 28);
   printw(" %-6s %-18s \n", "#ID", "Name");
-  attroff(COLOR_PAIR(int(Color::white)));
+  colorOff(Color::white);
 
   auto &waiting = sim.waitingPatients();
   for (int i = 0; i < height && (unsigned)i < waiting.size(); ++i) {
@@ -107,10 +110,10 @@ void NcursesTui::render(Simulator &sim) {
 void NcursesTui::_drawPatient(const Patient &p) {
   std::string tag_string;
 
-  attron(COLOR_PAIR(int(Color(int(p.tag()) + 2))));
+  colorOn(Color(int(p.tag()) + 2));
   // printw(" #%05d %05d %s\n", p.id(), p.ticks(), p.name().c_str());
   printw(" #%05d %-18s \n", p.id(), p.name().c_str());
-  attroff(COLOR_PAIR(int(Color(int(p.tag()) + 2))));
+  colorOff(Color(int(p.tag()) + 2));
 }
 
 Tui::Tui() : _open(true) {}
