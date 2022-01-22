@@ -23,7 +23,8 @@ Patients might die waiting for treatment or during treatment and the obituary
 message will be written to log.txt. Not all patients will get to be treated
 though as *green* and *blue* patients might get tired of waiting and leave.
 
-The time needed to treat a patient is random and decided when the treatment starts.
+The time needed to treat a patient is random and decided when the treatment
+starts.
 
 ## Requirements
 
