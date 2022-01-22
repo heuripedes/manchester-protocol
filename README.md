@@ -130,7 +130,7 @@ Shortcuts:
 * [x] Inheritance hierarchies are logical. Composition is used instead of
   inheritance when appropriate. Abstract classes are composed of pure virtual
   functions. Override functions are specified. 
-    > Classes Tui, TuiImpl and NcursesTui in Tui.cpp and Tui.h
+    > Classes Tui and NcursesTui in Tui.cpp and Tui.h
 * [ ] One function is overloaded with different signatures for the same function
   name.
 * [x] One member function in an inherited class overrides a virtual base class
@@ -163,10 +163,11 @@ Shortcuts:
 * [x] For classes with move constructors, the project returns objects of that
   class by value, and relies on the move constructor, instead of copying the
   object.
-    > Tui, and NcursesTui classes have "deleted" copy constructors and operators
+    > Patient class relies on move semantics, classes Tui and NcursesTui have "deleted" copy constructors and operators.
 * [x] The project uses at least one smart pointer: unique_ptr, shared_ptr, or
   weak_ptr. The project does not use raw pointers.
-    > unique_ptr used in Tui class in files Tui.h and Tui.cpp
+    > unique_ptr used in Tui class in files Tui.h and Tui.cpp to return Tui
+    > instances.
 
 ### Concurrency
 * [x] The project uses multiple threads in the execution.
